@@ -1,16 +1,16 @@
 # Render Blueprint for GeM Price Comparison
-# File location:
-# C:\Users\maddu\Downloads\GeM-price-comparison\render.yaml
+# Repository:
+# https://github.com/praharsh005/GeM-price-comparison
 
 services:
 
   # ============================================================
-  # BACKEND API
+  # BACKEND API - FREE WEB SERVICE
   # ============================================================
   - type: web
     name: gem-price-backend
     runtime: docker
-    plan: starter
+    plan: free
 
     dockerfilePath: ./webapp/backend/Dockerfile
     dockerContext: ./webapp/backend
@@ -50,15 +50,14 @@ services:
 
 
   # ============================================================
-  # FRONTEND
+  # FRONTEND - FREE STATIC SITE
   # ============================================================
   - type: web
     name: gem-price-frontend
-    runtime: docker
-    plan: starter
+    runtime: static
 
-    dockerfilePath: ./webapp/frontend/Dockerfile
-    dockerContext: ./webapp/frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./webapp/frontend/dist
 
     autoDeploy: true
 
@@ -68,11 +67,11 @@ services:
 
 
   # ============================================================
-  # POSTGRESQL DATABASE
+  # POSTGRESQL - FREE
   # ============================================================
   - type: pserv
     name: gem-postgres
-    plan: starter
+    plan: free
 
     ipAllowList: []
 
@@ -82,10 +81,10 @@ services:
 
 
   # ============================================================
-  # REDIS-COMPATIBLE KEY VALUE
+  # REDIS-COMPATIBLE KEY VALUE - FREE
   # ============================================================
   - type: keyvalue
     name: gem-redis
-    plan: starter
+    plan: free
 
     ipAllowList: []
