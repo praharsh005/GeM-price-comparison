@@ -112,9 +112,12 @@ def run(db=None):
     try:
         # Clear existing seed data (idempotent reseed)
         # Clear legacy mapping tables from migration FIRST (before ORM deletes due to FK constraints)
-        # Use IF EXISTS for PostgreSQL compatibility on fresh databases
+        # Use try/except since PostgreSQL doesn't support DELETE IF EXISTS
         for table in ["legacy_listing_mapping", "legacy_product_mapping", "legacy_marketplace_mapping"]:
-            session.execute(text(f"DELETE FROM {table} IF EXISTS"))
+            try:
+                session.execute(text(f"DELETE FROM {table}"))
+            except Exception:
+                session.rollback()
         session.flush()
         
         # Clear existing seed data (idempotent reseed)
