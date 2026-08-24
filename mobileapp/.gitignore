@@ -1,0 +1,25 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Node / Expo
+node_modules/
+.expo/
+dist/
+
+# Environment / secrets
+.env
+.env.local
+*.keystore
+
+# Android build output
+android/app/build/
+android/.gradle/
+android/local.properties
+android/app/debug/
+android/app/release/
+
+# OS
+.DS_Store
+Thumbs.db

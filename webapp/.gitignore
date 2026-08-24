@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Env / secrets
+.env
+*.env.local
+.env.*.local
+
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+vite.config.ts.timestamp-*
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs / data
+*.log
+logs/
+frontend/screenshots/
+
+# Playwright MCP snapshots
+.playwright-mcp/
+
+# Not for public upload
+EXTERNAL-CHANGES.md
+design reference/
+master-agent-prompt*.md
+GeM-Price-Intelligence.zip
