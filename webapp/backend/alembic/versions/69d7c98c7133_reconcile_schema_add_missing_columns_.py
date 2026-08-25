@@ -21,10 +21,11 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     """Upgrade schema."""
-    # marketplaces: add slug, logo_url, is_active
+    # marketplaces: add slug, logo_url, is_active, created_at
     op.add_column('marketplaces', sa.Column('slug', sa.String(50), unique=True, nullable=False, server_default=''))
     op.add_column('marketplaces', sa.Column('logo_url', sa.String(500), nullable=True))
-    op.add_column('marketplaces', sa.Column('is_active', sa.Boolean(), default=True, nullable=False))
+    op.add_column('marketplaces', sa.Column('is_active', sa.Boolean(), default=True, nullable=False, server_default=sa.true()))
+    op.add_column('marketplaces', sa.Column('created_at', sa.DateTime(timezone=True), nullable=False, server_default=sa.text('CURRENT_TIMESTAMP')))
 
     # products: add image_url, updated_at
     op.add_column('products', sa.Column('image_url', sa.String(500), nullable=True))
@@ -88,6 +89,7 @@ def downgrade() -> None:
     op.drop_column('products', 'image_url')
 
     # marketplaces
+    op.drop_column('marketplaces', 'created_at')
     op.drop_column('marketplaces', 'is_active')
     op.drop_column('marketplaces', 'logo_url')
     op.drop_column('marketplaces', 'slug')
