@@ -14,7 +14,7 @@ import { formatDate, formatINR } from '../utils/format'
 const LINE_COLORS = ['#123B66', '#0F766E', '#B45309', '#15803D', '#6D28D9', '#B91C1C']
 
 function toSeries(listings, priceHistory) {
-  const nameByListing = new Map(listings.map((l) => [String(l.id), l.marketplace.name]))
+  const nameByListing = new Map(listings.map((l) => [String(l.id), l.marketplace_name]))
   const points = []
   for (const [listingId, history] of Object.entries(priceHistory || {})) {
     const seriesName = nameByListing.get(listingId) || `Listing ${listingId}`

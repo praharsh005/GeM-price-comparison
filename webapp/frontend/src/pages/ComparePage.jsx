@@ -18,12 +18,12 @@ function PriceCard({ label, value, accent, hint }) {
 }
 
 function ListingRow({ listing, isCheapest }) {
-  const price = listing.current_price
+  const price = listing.price
   const diff = listing.difference_from_gem
   return (
     <tr className="border-b border-[#F6F8FB] last:border-0 hover:bg-[#F6F8FB]/60">
       <td className="py-3">
-        <span className="font-semibold text-[#123B66]">{listing.marketplace.name}</span>
+        <span className="font-semibold text-[#123B66]">{listing.marketplace_name}</span>
         {isCheapest && (
           <span className="ml-2 rounded bg-[#15803D]/10 px-2 py-0.5 text-xs font-semibold text-[#15803D]">
             Cheapest
@@ -86,8 +86,8 @@ export default function ComparePage() {
 
   const listings = data.listings ?? []
   const cheapestId = listings.reduce((bestIdx, l, i) => {
-    if (l.current_price == null) return bestIdx
-    if (bestIdx === null || l.current_price < listings[bestIdx].current_price) return i
+    if (l.price == null) return bestIdx
+    if (bestIdx === null || l.price < listings[bestIdx].price) return i
     return bestIdx
   }, null)
 

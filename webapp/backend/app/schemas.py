@@ -70,6 +70,7 @@ class ProductCompareOut(BaseModel):
     market_average: float | None = None
     match_confidence: float | None = None
     last_updated: str | None = None
+    price_history: dict[str, list[dict]] = {}
 
 
 class ProductSummaryOut(BaseModel):

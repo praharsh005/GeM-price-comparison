@@ -270,6 +270,19 @@ def compare(product_id: int, db: Session = Depends(get_db)):
             )
         )
 
+    history_rows = (
+        db.execute(
+            select(PriceHistory)
+            .where(PriceHistory.listing_id.in_([l.id for l in product.listings]))
+            .order_by(PriceHistory.recorded_at)
+        ).scalars().all()
+    )
+    price_history_map: dict[str, list[dict]] = {}
+    for h in history_rows:
+        price_history_map.setdefault(str(h.listing_id), []).append(
+            {"price": float(h.price), "recorded_at": h.recorded_at.isoformat()}
+        )
+
     return ProductCompareOut(
         id=product.id,
         name=product.name,
@@ -289,6 +302,7 @@ def compare(product_id: int, db: Session = Depends(get_db)):
         market_average=market_avg,
         match_confidence=match_conf,
         last_updated=last_upd,
+        price_history=price_history_map,
     )
 
 
