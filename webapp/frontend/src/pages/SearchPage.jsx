@@ -22,7 +22,7 @@ import {
   Wind,
 } from 'lucide-react'
 
-import { listCategories, searchProducts } from '../api'
+import { listInsights, searchProducts } from '../api'
 import ProductThumb from '../components/ProductThumb'
 import { formatDate, formatINR, savingsLabel } from '../utils/format'
 
@@ -194,7 +194,7 @@ export default function SearchPage() {
 
   useEffect(() => {
     let alive = true
-    listCategories()
+    listInsights()
       .then((data) => alive && setCategories(data.categories ?? []))
       .catch(() => {})
     return () => {
@@ -202,7 +202,7 @@ export default function SearchPage() {
     }
   }, [])
 
-  const totalProducts = categories.reduce((sum, c) => sum + (c.product_count || 0), 0)
+  const totalProducts = categories.reduce((sum, c) => sum + (c.products_with_gem || 0), 0)
   const showMetrics = totalProducts > 0
 
   const selectCategory = (name) => {
@@ -238,19 +238,19 @@ export default function SearchPage() {
             {categories.length > 0 && (
               <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
                 {categories.map((c) => {
-                  const active = category === c.name
+                  const active = category === c.category
                   return (
                     <button
-                      key={c.name}
+                      key={c.category}
                       type="button"
-                      onClick={() => onCategoryChange(active ? '' : c.name)}
+                      onClick={() => onCategoryChange(active ? '' : c.category)}
                       className={
                         active
                           ? 'rounded-full bg-[#0B2743] px-3 py-1.5 text-sm font-medium text-white'
                           : 'rounded-full bg-white/70 px-3 py-1.5 text-sm font-medium text-[#0B2743] hover:bg-white'
                       }
                     >
-                      {c.name}
+                      {c.category}
                     </button>
                   )
                 })}
@@ -286,12 +286,12 @@ export default function SearchPage() {
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
           {categories.map((c) => (
             <CategoryBlock
-              key={c.name}
-              name={c.name}
-              count={c.product_count}
+              key={c.category}
+              name={c.category}
+              count={c.products_with_gem}
               avg={c.avg_savings}
-              active={category === c.name}
-              onSelect={() => selectCategory(c.name)}
+              active={category === c.category}
+              onSelect={() => selectCategory(c.category)}
             />
           ))}
         </div>
