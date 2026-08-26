@@ -42,6 +42,8 @@ try:
     if count == 0:
         print("No products found, running seed...")
         seed_run(db=db)
+        db.commit()
+        print("Seed committed.")
     else:
         print("Database already seeded, skipping seed.")
 finally:
