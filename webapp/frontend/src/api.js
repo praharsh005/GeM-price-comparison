@@ -21,3 +21,7 @@ export function compareProduct(id, { signal } = {}) {
 export function listCategories({ signal } = {}) {
   return getJSON(`${BASE}/categories`, { signal })
 }
+
+export function listInsights({ signal } = {}) {
+  return getJSON(`${BASE}/insights`, { signal })
+}

@@ -12,7 +12,7 @@ import {
 } from 'recharts'
 import { Loader2, Package, TrendingDown, TrendingUp } from 'lucide-react'
 
-import { listCategories } from '../api'
+import { listInsights } from '../api'
 
 function InsightCard({ name, count, avg }) {
   const hasAvg = avg !== null && avg !== undefined
@@ -59,8 +59,8 @@ export default function InsightsPage() {
 
   useEffect(() => {
     let alive = true
-    listCategories()
-      .then((data) => alive && setCategories(data.categories))
+    listInsights()
+      .then((data) => alive && setCategories(data.categories ?? []))
       .catch(() => alive && setError('Unable to load insights. Is the backend running?'))
       .finally(() => alive && setLoading(false))
     return () => {
@@ -86,7 +86,7 @@ export default function InsightsPage() {
 
   const chartData = categories
     .filter((c) => c.avg_savings !== null && c.avg_savings !== undefined)
-    .map((c) => ({ name: c.name, savings: c.avg_savings }))
+    .map((c) => ({ name: c.category, savings: c.avg_savings }))
 
   return (
     <main className="mx-auto max-w-5xl px-6 py-10">
@@ -98,7 +98,7 @@ export default function InsightsPage() {
 
       <section className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {categories.map((c) => (
-          <InsightCard key={c.name} name={c.name} count={c.product_count} avg={c.avg_savings} />
+          <InsightCard key={c.category} name={c.category} count={c.products_with_gem} avg={c.avg_savings} />
         ))}
       </section>
 
