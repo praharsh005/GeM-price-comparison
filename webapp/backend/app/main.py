@@ -4,6 +4,7 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session, selectinload
 
 import itertools
+import os
 
 from app.cache import search_cache_get, search_cache_set
 from app.database import get_db
@@ -92,9 +93,12 @@ def _last_updated(listings: list[Listing]) -> str | None:
 
 app = FastAPI(title="GeM Price Comparison API")
 
+_allowed = os.getenv("ALLOWED_ORIGINS", "*").strip()
+_origins = [o.strip() for o in _allowed.split(",") if o.strip()] or ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_origins,
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
